@@ -1,0 +1,106 @@
+#powerpoint 
+(open pp)
+in this video we will be talking about hard and soft links
+
+(next slide)
+visible to users are the names of the files you open read and write to.
+not visible are the inodes and data blocks where the data of is stored
+there are two ways a file name is connect to a block of data
+
+(next slide)
+is first way is through soft links or symbolic links
+soft links work by creating a data block with the name of the file it is linking to and the inode number of that file.
+
+(next slide)
+hard links however created a new file name with the same inode 
+the inode links to the same data blocks.
+
+#soft link
+(end powerpoint start bash)
+(mkdir newdir)
+(cd newdir)
+lets start with a new directory and make a file and a folder
+(mkdir folder)
+(touch file)
+(ls -l)
+the number next to my name is the number of hard links it contains
+the file has one hard link linking it to a data block as expected
+but dispite being a new folder it has two hard links.
+(cd folder)
+(ls -a)
+ls shows 2 hard links because the . and .. folders are hard links to the current folder and the previous folder. 
+
+(cd ..)
+now lets make some links.
+to make a soft link to file called link
+to make a link, we use the link command ln 
+and the dash s flag to make a soft link
+the next two arguments is the path to the original file and the path of the soft link
+(ln -s file link)
+(ls -l)
+as you can see the name for the soft link shows the file it is linking to.
+you can also soft link directories
+(ln -s folder flink)
+(ls -l)
+lets see what happens when we edit the file 
+(echo "hii" > file)
+(cat < file)
+(cat < link)
+as expected both are changed 
+lets see what happens with the modification times
+
+(touch file)
+(ls -l file)
+(ls -l link)
+changing the time of the original file does not change the time of the link 
+
+#hardlink
+now lets make a hard link to a file 
+its the same command without any flags
+(touch file2)
+(ln file2 hlink)
+lets use the -i flag for ls to see the inode number
+(ls -i hlink)
+(ls -i file2)
+as expected they are the same
+lets modify the files a bit 
+(echo "byee" > file2)
+(cat < file2)
+(cat < hlink)
+yep boh the files changed
+lets modify the time a bit 
+(touch file2)
+(ls -l file2)
+(ls -l hlink)
+notice how both the las tmodified times changed 
+
+finally lets try to hard link a directory
+(ln folder hlndir)
+it didn't work lets try root 
+(sudo ln folder hlndir)
+that didnt work either
+one of the advantages of soft link is that you can soft link a folder or  across different partitions
+while you cant for hard links
+
+note that a file must not have the same name as the name of the new link you are going to create.
+(touch link2)
+(ln -s file link2)
+
+deleting the original file a soft link is linked to will break the link
+(rm file)
+(ls -l link)
+(cat < link)
+as you can see we can no longer access the data
+
+lets see what happens when we delete a file2 
+(rm file2)
+(ls -l hlink)
+(cat hlink)
+its still here
+you can still access the data in your hardlinked file as long as there is a file hard linked to it
+
+so why whould you want to link files?
+linking helps increase the partition size virtually. 
+say you have two partitions at 4gb and 16gb the first partition does not have enough space and a program needs more space 
+you can use some fo the space form the second partition by moving the files over to the second partitions 
+and creating a link to the files.
