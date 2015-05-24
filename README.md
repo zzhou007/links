@@ -43,4 +43,11 @@ or
 Because files are directory entries associated with a Inode, you can use unlink to delete files.
 So whats the difference between the two?
 ![alt text](https://i.imgur.com/gsgJbDa.png?1)
+Notice how unlink is slightly faster than rm.
+That is because unlink has less fetures than rm.
+unlink:
+*is not recursive
+*cannt remove directories
+*cannt handle less than one element ie 'unlink file1 file2' will not work
+*has less sanity checking
 
