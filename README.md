@@ -1,4 +1,6 @@
 # Links
+##What is This?
+This is a page all about links for people who dont want to read the man pages or want examples.
 ##What are Links and Why Should I Care?
 Without links Inode are associated with one directory entry at a time.
 With links, you can access the same inode with more than one entry.
@@ -47,7 +49,18 @@ or
 
 Because files are directory entries associated with a Inode, you can use unlink to delete files.
 So whats the difference between the two?
-![alt text](https://i.imgur.com/gsgJbDa.png?1)
+
+>$ touch $(seq 1 100) #makes file form 1 to 100
+>$ time for i in $(seq 1 100); do rm $i; done
+>real	0m0.151s
+>user	0m0.000s
+>sys	0m0.032s
+>$ touch $(seq 1 100)
+>$ time for i in $(seq 1 100); do unlink $i; done
+>real	0m0.147s
+>user	0m0.004s
+>sys	0m0.032s
+
 Notice how unlink is slightly faster than rm.
 That is because unlink has less fetures than rm.
 unlink:
@@ -56,16 +69,51 @@ unlink:
 * cannt handle less than one element ie 'unlink file1 file2' will not work
 * has less sanity checking
 
+The measurements are done with a loop unlinking or removing one file at a time.
+Because rm can accept more than one argument at a time it is actully faster to use rm if you know all the arguments beforehand.
+
+>$ touch $(seq 1 100)
+>$ time rm $(seq 1 100)
+>real	0m0.008s
+>user	0m0.000s
+>sys	0m0.004s
+
+You should almost always use the `rm` command because it is better in close to everyway. 
 #Flags
 ##--backup -b
+Want to make a link but the file already exists?
+Dont want to type mv?
+Cant think of a name?
+use `--backup` or `-b` to create a backup of a file and make a link at the same time.
 
 >ln --backup file1 file2
 
+If file2 exists, running the command you get `file1` `file2` and `file2~`
+Dont like the naming system? 
+You can use number too!
+
+>ln --backup=numbered file1 file2
+
+Now instead of making a backup called `file2~` its now called `file2.~1~`
+Possable arguments for `--backup` is:
+* none
+* off
+* sumple
+* never
+* existing
+* nil
+* numbered 
+* t
+
+In summary  
 If file 2 exists the flag will 
-* create a backup of file 2 named file2~.
+* create a backup of file 2
 * create a link for file1 called file2
 
 ##-d -F --directory
+What if hardlinks could link to directories as well?
+Well it can! (not really)
+`-d` `-F` or `--directory`
 lets super user create a hard link to a dir 
 
 >ln -d dir link
@@ -80,7 +128,44 @@ Instead of typing `rm file2` an entire 8 characters type `-f` instead.
 
 >ln -f file file2
 
-Makes a link to file even if file2 exists.
-If file2 exists removes file2.
+*Makes a link to file2
+*If file2 exists removes file2.
 
-##-n  
+##-n --no-dereference
+In `ln -sfn file link`, the n flag treats link as a regular file if it is a soft link to a directory. 
+Now why whould anyone want to do that?
+If `link` is a soft link to `dir`, `ln` will dereference `link` to `dir` go to `dir` and use the original name as the target name.
+Understand? Not really? Heres an example.
+
+>$ mkdir dir1 dir2
+>$ ln -s dir1 link
+>$ ls -l link
+>lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
+>$ln -sf dir2 link
+>$ ls -l link
+>lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
+>$ ls -l dir1
+>total 0
+>lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:42 dir2 -> dir2
+>$ ln -snf dir2 link
+>$ ls -l link
+>lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:45 link -> dir2
+
+
+In this example, I first linked `link` to `dir1`.
+When I tried to link to `dir2`, ln dereferenced link went to the original target `dir1` and used it as the link name which is why you get `dir2` inside `dir1`
+Understand? Not really?
+Thats fine just remember to always use `-nsf` instead of `-sf` 
+
+##-i
+I `i` stands for `interactive`.
+It does exactly what the `-f` flag does but it asks first.
+
+>$ touch f1 f2
+>$ ln -i f1 f2
+>ln: replace ‘f2’?
+
+Side note if you add the `-f` flag with the `-i` flag it does not ask and just deletes. 
+
+## -S --suffix=SUFFIX
+
