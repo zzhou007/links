@@ -16,6 +16,7 @@ hard links however created a new file name with the same inode
 the inode links to the same data blocks.
 
 #soft link
+first lets talk about soft links
 (end powerpoint start bash)
 (mkdir newdir)
 (cd newdir)

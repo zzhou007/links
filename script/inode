@@ -1,9 +1,8 @@
 Hello this is a presentation on Inodes and Data blocks
-(type ls)
+(type ls -l)
 in this directory there is a link, a directory and a regular file.
 in unix systems, there are 5 types of files, 
 regular, directory, symbolic links, hard links, device files nad named pipes
-(type ls -l )
 regular files are marked at the very left with a dash 
 directores are a d
 links are a l
@@ -12,14 +11,14 @@ and named pipes are a p
 
 (switch to and start power point)
 to understand links, we will be first talking about inods and data blocks.
-files do not directly link to data block. 
+files do not directly linked to data block. 
 instead they link to inodes.
 (next slide)
-inodes or index nodes is a  file structior of a fie system 
+inodes or index nodes is a  file structior of a file system 
 every linux system uses inodes except solaris.
 thses inodes contain info about the corresponding file such as 
 mode/permission
-ower id group id 
+owner id group id 
 size of file
 number of hard links to the file
 time last accessed and modified
