@@ -7,6 +7,7 @@ Lets say your root partition is running out of space and you really want to inst
 You link a root folder to your home folder in another partition and install Libre Office in your home folder. 
 
 #code 
+##creating links
 So how whould I go about making these wonderful links?
 You can make hard links simply with the ln command.
 The format is 
@@ -29,3 +30,17 @@ or
 >ln -s /path/to/file1 /path/to/link1
 
 Soft links can link across file systems and to directories.
+##removing links
+Say you typed 'ln file1 lnik' instead of 'ln file1 link1'.
+To delete links, you can use
+
+>rm lnik
+
+or 
+
+>unlink lnik 
+
+Because files are directory entries associated with a Inode, you can use unlink to delete files.
+So whats the difference between the two?
+![alt text](https://i.imgur.com/gsgJbDa.png?1)
+
