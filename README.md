@@ -46,8 +46,8 @@ So whats the difference between the two?
 Notice how unlink is slightly faster than rm.
 That is because unlink has less fetures than rm.
 unlink:
-*is not recursive
-*cannt remove directories
-*cannt handle less than one element ie 'unlink file1 file2' will not work
-*has less sanity checking
+* is not recursive
+* cannt remove directories
+* cannt handle less than one element ie 'unlink file1 file2' will not work
+* has less sanity checking
 
