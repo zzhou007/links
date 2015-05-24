@@ -50,25 +50,18 @@ or
 Because files are directory entries associated with a Inode, you can use unlink to delete files.
 So whats the difference between the two?
 
-> $ touch $(seq 1 100) #makes file form 1 to 100
-
-> $ time for i in $(seq 1 100); do rm $i; done
-
-> real	0m0.151s
-
-> user	0m0.000s
-
-> sys	0m0.032s
-
-> $ touch $(seq 1 100)
-
-> $ time for i in $(seq 1 100); do unlink $i; done
-
-> real	0m0.147s
-
-> user	0m0.004s
-
-> sys	0m0.032s
+```
+ $ touch $(seq 1 100) #makes file form 1 to 100
+ $ time for i in $(seq 1 100); do rm $i; done
+ real	0m0.151s
+ user	0m0.000s
+ sys	0m0.032s
+ $ touch $(seq 1 100)
+ $ time for i in $(seq 1 100); do unlink $i; done
+ real	0m0.147s
+ user	0m0.004s
+ sys	0m0.032s
+```
 
 Notice how unlink is slightly faster than rm.
 That is because unlink has less fetures than rm.
