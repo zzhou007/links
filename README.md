@@ -74,15 +74,13 @@ unlink:
 The measurements are done with a loop unlinking or removing one file at a time.
 Because rm can accept more than one argument at a time it is actully faster to use rm if you know all the arguments beforehand.
 
-> $ touch $(seq 1 100)
-
-> $ time rm $(seq 1 100)
-
-> real	0m0.008s
-
-> user	0m0.000s
-
-> sys	0m0.004s
+```
+ $ touch $(seq 1 100)
+ $ time rm $(seq 1 100)
+ real	0m0.008s
+ user	0m0.000s
+ sys	0m0.004s
+```
 
 You should almost always use the `rm` command because it is better in close to everyway. 
 #Flags
@@ -143,32 +141,21 @@ Now why whould anyone want to do that?
 If `link` is a soft link to `dir`, `ln` will dereference `link` to `dir` go to `dir` and use the original name as the target name.
 Understand? Not really? Heres an example.
 
-> $ mkdir dir1 dir2
-
-> $ ln -s dir1 link
-
-> $ ls -l link
-
-> lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
-
-> $ln -sf dir2 link
-
-> $ ls -l link
-
-> lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
-
-> $ ls -l dir1
-
-> total 0
-
-> lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:42 dir2 -> dir2
-
-> $ ln -snf dir2 link
-
-> $ ls -l link
-
-> lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:45 link -> dir2
-
+```
+$ mkdir dir1 dir2
+ $ ln -s dir1 link
+ $ ls -l link
+ lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
+ $ln -sf dir2 link
+ $ ls -l link
+ lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:41 link -> dir1
+ $ ls -l dir1
+ total 0
+ lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:42 dir2 -> dir2
+ $ ln -snf dir2 link
+ $ ls -l link
+ lrwxrwxrwx 1 lolipopping lolipopping 4 May 24 15:45 link -> dir2
+```
 
 In this example, I first linked `link` to `dir1`.
 When I tried to link to `dir2`, ln dereferenced link went to the original target `dir1` and used it as the link name which is why you get `dir2` inside `dir1`
@@ -179,11 +166,11 @@ Thats fine just remember to always use `-nsf` instead of `-sf`
 I `i` stands for `interactive`.
 It does exactly what the `-f` flag does but it asks first.
 
-> $ touch f1 f2
-
-> $ ln -i f1 f2
-
-> ln: replace ‘f2’?
+```
+$ touch f1 f2
+ $ ln -i f1 f2
+ ln: replace ‘f2’?
+```
 
 Side note if you add the `-f` flag with the `-i` flag it does not ask and just deletes. 
 
