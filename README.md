@@ -1,20 +1,20 @@
 # Links
-##What is This?
+###What is This?
 This is a page all about links for people who dont want to read the man pages or want examples.
-##What are Links and Why Should I Care?
+###What are Links and Why Should I Care?
 Without links Inode are associated with one directory entry at a time.
 With links, you can access the same inode with more than one entry.
 Why whould someone want to do this?
 Lets say your root partition is running out of space and you really want to instsall Libre office.
 You link a root folder to your home folder in another partition and install Libre Office in your home folder. 
 
-##Whats the Difference Between Hard and Soft Links?
+###Whats the Difference Between Hard and Soft Links?
 The main difference is soft links makes a new inode while hard links share the same inode.
 Click [Here](www.youtube.com/watch?v=j_BgOf2Ti-s) to watch a video about inodes.
 #Code 
 Dont want to read pages of test?
 Click [Here](https://www.youtube.com/watch?v=LPIMLR4simU) to watch a simplified video about the basics of links.
-##Creating Links
+###Creating Links
 So how whould I go about making these wonderful links?
 You can make hard links simply with the ln command.
 The format is 
@@ -37,7 +37,7 @@ or
 > ln -s /path/to/file1 /path/to/link1
 
 Soft links can link across file systems and to directories.
-##Removing Links
+###Removing Links
 Say you typed 'ln file1 lnik' instead of 'ln file1 link1'.
 To delete links, you can use
 
@@ -84,7 +84,7 @@ sys	0m0.004s
 
 You should almost always use the `rm` command because it is better in close to everyway. 
 #Flags
-##--backup -b
+###--backup -b
 Want to make a link but the file already exists?
 Dont want to type mv?
 Cant think of a name?
@@ -114,7 +114,7 @@ If file 2 exists the flag will
 * create a backup of file 2
 * create a link for file1 called file2
 
-##-d -F --directory
+### -d -F --directory
 What if hardlinks could link to directories as well?
 Well it can! (not really)
 `-d` `-F` or `--directory`
@@ -124,7 +124,7 @@ lets super user create a hard link to a dir
 
 It almost never works just use soft links instead
 
-##-f
+### -f
 Say you want to make a link of file called file2 and oh no!
 `ln: failed to create hard link ‘file2’: File exists`
 Instead of typing `rm file2` an entire 8 characters type `-f` instead.
@@ -135,7 +135,7 @@ Instead of typing `rm file2` an entire 8 characters type `-f` instead.
 *Makes a link to file2
 *If file2 exists removes file2.
 
-##-n --no-dereference
+### -n --no-dereference
 In `ln -sfn file link`, the n flag treats link as a regular file if it is a soft link to a directory. 
 Now why whould anyone want to do that?
 If `link` is a soft link to `dir`, `ln` will dereference `link` to `dir` go to `dir` and use the original name as the target name.
@@ -162,8 +162,8 @@ When I tried to link to `dir2`, ln dereferenced link went to the original target
 Understand? Not really?
 Thats fine just remember to always use `-nsf` instead of `-sf` 
 
-##-i
-I `i` stands for `interactive`.
+### -i
+`i` stands for `interactive`.
 It does exactly what the `-f` flag does but it asks first.
 
 ```
@@ -174,5 +174,55 @@ ln: replace ‘f2’?
 
 Side note if you add the `-f` flag with the `-i` flag it does not ask and just deletes. 
 
-## -S --suffix=SUFFIX
+### -S --suffix=SUFFIX
+Wow `-b` sounds really useful but I dont like how its named. 
+What if I want to add .backup or .csgod to my backups instead?
+
+> ln -S.backup f1 f2
+
+or 
+
+> ln --suffix=.backup f1 f2
+
+The command makes a backup of `f2` if `f2` exists and adds whatever suffix you want.
+If the file with the suffix already exists, it is over written. 
+
+### -t --target-directory=DIRECTORY
+What if I want a link in another directory?
+Say I want to make a soft link of a folder form root to my home folder with the same name.
+
+> ln -tdir1 f1
+
+or
+
+> ln --target-directory=dir1 f1
+
+The command creats a link called `f1` in directory `dir1` to file `f1`
+
+### -T --no-target-directory
+Lets say you're now working at google and you want to link some filesystems togther.
+You want to link to `file` called `link` but you notice theres a directory also called `link`.
+Instead of creating a link called `link`, it creates a link called `file` inside the `link` directory!
+To prevent this and instead print an error, you need to use the -T flag. 
+
+> ln -T file link
+
+or
+
+> ln --no-target-directory
+
+Thay way, instead of creating a link instide the directory, it prints out an error so you know to change the name of the link.
+
+### -v --verbose
+Are you making hundreds of links across your system and want to make a text file to keep track of it?
+The `-v` flag has `ln` print out what its doing.
+
+> ln -vs f1 f2
+
+or 
+
+> ln -s --verbose f1 f2
+
+Not only does this create a link called f2 linking to f1, it prints out what its doing.
+The output would be `\`f2\` -> \`f1\`` 
 
