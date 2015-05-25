@@ -224,5 +224,6 @@ or
 > ln -s --verbose f1 f2
 
 Not only does this create a link called f2 linking to f1, it prints out what its doing.
-The output would be `\`f2\` -> \`f1\`` 
+The output would be `'f2' -> 'f1'`.
+The format is name of link created -> target of link.
 
