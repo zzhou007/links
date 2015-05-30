@@ -65,22 +65,41 @@ We can backup important files without where our files are on our computer.
 Switching using linux in general requires lots of backing up and it is far more time effecient to keep files on a different partition.
 
 ####How?
-First created a new partition and move over any file that is important.
-Learn about partitioning here:
-[Windows](https://technet.microsoft.com/en-us/magazine/gg309170.aspx) 
-[Linux](http://computernetworkingnotes.com/file-system-administration/how-to-create-partition-using-fdisk.html) 
-[Mac](https://support.apple.com/en-us/HT204009).
-Now lets link our files to our home folder
+Assuming you have a seperate partition with all of your important data and you nammed the partition Data, 
+all you have to do is run the folling commands 
 
 ```
-ln -fsn /Data/Documents ~/
-ln -fsn /Data/Pictures ~/
-ln -fsn /Data/Videos ~/
+ln -fsn /media/Data/Documents ~/
+ln -fsn /media/Data/Pictures ~/
+ln -fsn /media/Data/Videos ~/
 ```
+
+As long as you have your partition called data mounted in /media you can created a link to the folder in your home directory.
+This command replaces your Documents, Pictures and Videos folder in you directory with a soft link. 
+You can access and change the files in the folders as long as the partition is mounted. 
+
+####Why?
+Why do all the extra work to access some files on another partition?
+This allows you to keep all of your previous data from before you moved to linux so you wouldn't have to redownload. 
+If you duo boot, you can access the same files from both OS's saving spaces. 
+If you break your linux install, you can simply reinstall without deleting all of your files. 
 
 ###Fixing Compatability issues
+Not only can you link to files and folders but you can link to executables and exectue the executable with a link.
+
+####How?
+####Why?
 
 ###Organization with Links
 
-#Intresting Cases
+####How?
+####Why?
+
+#Intresting Facts
 ###Why Can We not Dard Link Directories and What Happends When We Try?
+###How the mv and rm command works
+rm just unlinks the file but does not overwrite the data. 
+As long as you are in the same filesystem, mv just creates a hard link and removes the previous directory entry. 
+This allows for faster reorganization without actully changint the data at all. 
+
+
