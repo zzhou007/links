@@ -91,9 +91,17 @@ Not only can you link to files and folders but you can link to executables and e
 ####Why?
 
 ###Organization with Links
+Being able to access the same file in multiple files makes organization far easier. 
 
 ####How?
+This time we will be creating a hardlink of a picture for another directory
+
+```
+ln ../Family/12352162.png .
+```
+
 ####Why?
+
 
 #Intresting Facts
 ###Why Can We not Dard Link Directories and What Happends When We Try?
