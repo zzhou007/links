@@ -88,9 +88,14 @@ If you break your linux install, you can simply reinstall linux without deleting
 Not only can you link to files and folders but you can also link to executables and execute the executable with a link.
 
 ####How?
-
+```
+ln -s /opt/program-1.2.3.4 program
+```
+This creates a soft link to the latest version of program 
 ####Why?
-
+Some features are not backwards compatable so multiple versions are kept.
+Everything the program updates all you have to update is the link.
+Running the program multiple times a day will save lots of typing!
 ###Organization with Links
 Being able to access the same file in multiple files makes organization far easier. 
 
