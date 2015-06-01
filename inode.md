@@ -1,18 +1,20 @@
 #Inodes
 ###What are Inodes?
-Files do not directly linked to data block. 
+Files are not directly linked to data blocks.
 Instead they link to inodes.
-Inodes or index nodes is a file structior of a file system 
+Inodes or index nodes are a file structure of a file system. 
 Every unix system uses inodes except Solaris.
-Thses inodes contain info about the corresponding file such as:
-mode/permissioni,
-owner id group id, 
-size of file,
-number of hard links to the file,
-time last accessed and modified,
-the time the inode was last modified,
-the data block number,
-and the inode number. 
+These inodes contain information about the corresponding file such as:
+
+* mode/permissions
+* owner id/group id 
+* size of file
+* number of hard links to the file
+* time last accessed and modified
+* the time the inode was last modified
+* the data block number
+* the inode number
+
 Inodes are around 128 bytes of data.
 ###Example
 ![Alt text](pictures/inode_ex.jpg?raw=true)
