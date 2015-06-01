@@ -35,11 +35,15 @@ in the space of the delete blue block a pink block is store but there is not eno
 This is known as fragmentation.
 with a revolving platter hard  drive, the magnetic needle has to move to the place the block is stored slowing data transfer leading to fragmentation.
 
-> ADD ONE MORE PICTURE SHOWING THE BLOCKS GROUPED together.
-to fix this the system regularly degragments grouping the data blocks of the same files together speding up readind
-with the introduction of solid state drives with no moving parts, you no longer need to degrag
+![Alt test](pictures/frag_3.jpg?raw=true)
+To fix this the system regularly degragments grouping the data blocks of the same files together speding up reading.
+Because SSDs don't have moving parts you do not need to defrag them.
 
 #Practical Uses
 So now that you have this knowlage how can you use it?
 ###Restoring deleted files
-Because the `rm` command 
+Because the `rm` command does not overwrite any data and just deletes the node, 
+we can restore data deleted.
+
+
+
