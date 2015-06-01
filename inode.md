@@ -1,40 +1,21 @@
-Hello this is a presentation on Inodes and Data blocks
-(type ls -l)
-in this directory there is a link, a directory and a regular file.
-in unix systems, there are 5 types of files, 
-regular, directory, symbolic links, hard links, device files nad named pipes
-regular files are marked at the very left with a dash 
-directores are a d
-links are a l
-device files are b and c depending on the type 
-and named pipes are a p
-
-(switch to and start power point)
-to understand links, we will be first talking about inods and data blocks.
-files do not directly linked to data block. 
-instead they link to inodes.
-(next slide)
-inodes or index nodes is a  file structior of a file system 
-every linux system uses inodes except solaris.
-thses inodes contain info about the corresponding file such as 
-mode/permission
-owner id group id 
-size of file
-number of hard links to the file
-time last accessed and modified
-the time the inode was last modified
-the data block number 
+#Inodes
+###What are Inodes?
+Files do not directly linked to data block. 
+Instead they link to inodes.
+Inodes or index nodes is a file structior of a file system 
+Every unix system uses inodes except Solaris.
+Thses inodes contain info about the corresponding file such as:
+mode/permissioni,
+owner id group id, 
+size of file,
+number of hard links to the file,
+time last accessed and modified,
+the time the inode was last modified,
+the data block number,
 and the inode number. 
-inodes are around 128 bytes of data
+Inodes are around 128 bytes of data
 
-(next slide)
-notice inodes do not contain the file name. 
-file names are stored in the directories information strcuture.
-
-in this picture you are in a directory with files foo and bar
-foo is pointing to inode 123
-and inode 123 is pointing to the corresponding data block 
-
+#Data Blocks
 (next slide)
 data blocks in unix are around 1024 bytes
 when you type ls -l it displays the total block used. 
