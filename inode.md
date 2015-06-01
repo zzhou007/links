@@ -14,7 +14,7 @@ the time the inode was last modified,
 the data block number,
 and the inode number. 
 Inodes are around 128 bytes of data
-![Alt text](pictures/indoe_example.jpg?raw=true)
+![Alt text](pictures/indoe_ex.jpg?raw=true)
 
 #Data Blocks
 (next slide)
