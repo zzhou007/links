@@ -101,6 +101,10 @@ ln ../Family/12352162.png .
 ```
 
 ####Why?
+You can edit one picture and it will change all the other pictuers.
+It works just like a tagging system but with folders.
+Why not soft links?
+
 
 
 #Intresting Facts
