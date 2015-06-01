@@ -104,9 +104,10 @@ ln ../Family/12352162.png .
 
 
 #Intresting Facts
-###Why Can We not Hard Link Directories and What Happens When We Try?
+###Why are Hard Links not allowed for Directories and What Happens When We Try?
+This is a very bad idea because there is no way to distinguish between a hard link and an orginal name. Using hard links would break the iternal structure of the filesystem which would possibly cause directory loops and dangling directory subtrees. A solution to this problem would be to use soft links.
 ###How the mv and rm command works
-Rm just unlinks the file but does not overwrite the data. 
+`rm` just unlinks the file but does not overwrite the data. 
 As long as you are in the same filesystem, mv just creates a hard link and removes the previous directory entry. 
 This allows for faster reorganization without actually changing the data at all. 
 
