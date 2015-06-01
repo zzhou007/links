@@ -88,6 +88,7 @@ If you break your linux install, you can simply reinstall linux without deleting
 Not only can you link to files and folders but you can also link to executables and execute the executable with a link.
 
 ####How?
+
 ####Why?
 
 ###Organization with Links
@@ -104,7 +105,9 @@ ln ../Family/12352162.png .
 You can edit one picture and it will change all the other pictuers.
 It works just like a tagging system but with folders.
 Why not soft links?
-
+We use hard links in this case so moving files will not break the soft links.
+Deleting a folder garentees nothing will break.
+Hard links use slightly less space.
 
 
 #Intresting Facts

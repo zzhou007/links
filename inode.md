@@ -43,7 +43,6 @@ Since Solid State Drives don't have moving parts, you do not need to defrag them
 
 #Practical Uses
 So now that you have this knowlage how can you use it?
-<<<<<<< HEAD
 ###Restoring Deleted Files on ext2 ext3
 Because the `rm` command does not overwrite any data and just deletes the node, 
 we can restore data deleted.
