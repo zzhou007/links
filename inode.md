@@ -51,7 +51,6 @@ we can restore data deleted.
 ###Restoring deleted files
 Since the `rm` command does not overwrite any data and just deletes the node, 
 we have the ability to restore the data deleted.
->>>>>>> 46c04ae6325d35646d1a46a2740aefd34b841314
 
 ```
 $ echo 'hiii' > file.txt
