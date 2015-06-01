@@ -41,9 +41,67 @@ Because SSDs don't have moving parts you do not need to defrag them.
 
 #Practical Uses
 So now that you have this knowlage how can you use it?
-###Restoring deleted files
+###Restoring Deleted Files on ext2 ext3
 Because the `rm` command does not overwrite any data and just deletes the node, 
 we can restore data deleted.
 
+```
+$ echo 'hiii' > file.txt
+$ ls -i file.txt
+4590386 file.txt
+$ rm file.txt
+```
 
+First we create a test file called file and use the `-i` flag to get the inode number.
+Now we use the `debugfs` to get the information we need to restore the file. 
 
+If your system is on `/dev/sda2` use
+
+```
+sudo debugfs -w /dev/sda2
+```
+
+If your system is on `/dev/mapper/SysVolGroup-LogVolRoot` use
+
+```
+sudo debugfs -w /dev/mapper/SysVolGroup-LogVolRoot
+```
+
+If you didn't get a chance to run `ls -i` you can find the inode number with `lsdel`.
+The command displays:
+
+* the deleted inode number
+* its owner 
+* size
+* deletion date
+
+Now run
+
+```
+logdump -i <4590386>
+```
+
+A lot of output will appear but we are only intrested on the line 
+
+```
+Blocks: (0+1): 7559168
+```
+
+It tells us where the data block is 
+Enter `q` to quite and finally run: 
+
+```
+dd if=/dev/mapper/name of=file.txt bs=4096 count=1 skip=7559168
+```
+
+or if you are on a ext2 system run:
+
+```
+dump <4590386> data.txt
+```
+
+Finally we can check with
+
+```
+cat file.txt
+```
