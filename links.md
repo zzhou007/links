@@ -1,23 +1,16 @@
 # Links
-###What is This?
-This is a page all about links.
 ###What are Links and Why Should I Care?
+Links are a simple way to map two or more filenames to the same inode.
 Without links Inode are associated with one directory entry at a time.
 With links, you can access the same inode with more than one entry.
 Why whould someone want to do this?
 It allows organization of the filesystem in amazing ways.
-
-###Whats the Difference Between Hard and Soft Links?
-Hard links share the same inode while soft links have sepperate inodes.
-You can create soft links across filesystems.
-Hard links can only be created in the same filesystem.
-You can not hard link directories.
-Go [here](inode.md) to learn more about inodes and data blocks.
 #Inodes
 ###What are Inodes?
+Inodes or index nodes are a file structure of a file system. 
+Inodes repersent a file system object - either a file or directory.
 Files are not directly linked to data blocks.
 Instead they link to inodes.
-Inodes or index nodes are a file structure of a file system. 
 Every unix system uses inodes except Solaris.
 These inodes contain information about the corresponding file such as:
 
@@ -33,10 +26,10 @@ These inodes contain information about the corresponding file such as:
 Inodes are around 128 bytes of data.
 ###Example
 ![Alt text](pictures/inode_ex.jpg?raw=true)
-add explnation here~!!
-
+In this picture, you can see foo.txt is a file with the inode number 1234 linking to the datablock containing hellow world.
+There is also a directory cs100 with the inode number 2345 linking to a datablock contaning bar.txt.
 #Data Blocks
-Data blocks in unix are 1024 bytes.
+Data blocks in unix are usually 1024, 2048, or 4096 bytes.
 As you can see, data blocks stores data.
 If you want to store data less than or equal to 1024 bytes, it takes up one block.
 The amount of blocks it takes up is the amount of data you want to store divided by 1024 bytes rounded to the nearest block.
@@ -66,6 +59,9 @@ we can restore data deleted.
 Since the `rm` command does not overwrite any data and just deletes the node, 
 we have the ability to restore the data deleted.
 
+First we create a test file called `file.txt` by using the command echo and output redirection.
+Then we use the `-i` flag with ls to get the inode number.
+
 ```
 $ echo 'hiii' > file.txt
 $ ls -i file.txt
@@ -73,28 +69,22 @@ $ ls -i file.txt
 $ rm file.txt
 ```
 
-First we create a test file called file and use the `-i` flag to get the inode number.
 Now we use the `debugfs` to get the information we need to restore the file. 
 
-If your system is on `/dev/sda2` use
+If your file is located on `/dev/sda2` use
 
 ```
 sudo debugfs -w /dev/sda2
 ```
+`/dev/sda2` is the unix way of naming filesystmes much like the `C:` on windows.
+`/dev/` contains the divices files and `sda2` is the second partition on the first drive.
 
-If your system is on `/dev/mapper/SysVolGroup-LogVolRoot` use
+If your file is located in the file system `/home`, use `/dev/mapper/SysVolGroup-LogVolRoot`
 
 ```
 sudo debugfs -w /dev/mapper/SysVolGroup-LogVolRoot
 ```
-
 If you didn't get a chance to run `ls -i` you can find the inode number with `lsdel`.
-The command displays:
-
-* the deleted inode number
-* its owner 
-* size
-* deletion date
 
 Now run
 
@@ -103,9 +93,16 @@ logdump -i <4590386>
 ```
 
 A lot of output will appear but we are only intrested on the line 
+`Blocks: (0+1): 7559168`
 
 ```
-Blocks: (0+1): 7559168
+inode is at 4590386 group 230, block 7536642, offset 896
+Journal starts at block 10875, transaction 38398034
+  FS block 7536642 logged at sequence 38398245, journal block 12418
+ ...
+ ...
+ ...
+  Blocks: (0+1): 7559168
 ```
 
 It tells us where the data block is 
@@ -128,29 +125,10 @@ cat file.txt
 ```
 
 #Examples
-###Creating Links
-Before we get to the fun stuff lets first go over how to make a link.
-We can make hard links simply with the `ln` command and soft links with an optional `-s` flag.
-The format is 
-
-```
-ln [optional flags] file1 link1
-```
-
-or
-
-```
-ln [optional flags] /path/to/file1 /path/to/link1
-```
-
-Simple right?
-
 ###Syncing Entire Folders to Dropbox
 Dropbox and other cloud storage are great at keeping backups of our important files.
 The problem is that these forms of storage can only sync what is in their folders.
 This is where symbolic links are useful.
-
-####How?
 
 ```
 ln -s ~/Doccuments/essays ~/Dropbox
@@ -167,7 +145,6 @@ ln -s Dropbox/essays Documents
 
 Instead of syncing the symbolic link to the file, we can sync the actual file and we have a symbolic link to our documents folder.
 
-####Why?
 Using this method has numerious advantages over just copying the files you want to sync over.
 First off, it allows us to keep the changes we make in that folder up to date so we wouldn't have to keep recopying the contents. 
 It will keep our folder structure. 
@@ -175,9 +152,7 @@ In our essays folder, we can seperate the essays by class and dropbox will copy 
 We can backup important files without changing where our files are on our computer.
 
 ###Accessing files in a different partition
-Using linux in general requires a lot of backing up and it is far more time effecient to keep files on a different partition.
-
-####How?
+When starting out with linux it is easy to break your instelation.
 Assuming you have a seperate partition with all of your important data and you named the partition Data, 
 all you have to do is run the folling commands:
 
@@ -191,7 +166,6 @@ As long as you have your partition called data mounted in /media, you can create
 This command replaces your Documents, Pictures and Videos folder in your directory with a soft link. 
 You can access and change the files in the folders as long as the partition is mounted. 
 
-####Why?
 Why do all the extra work to access some files on another partition?
 This allows you to keep all of your previous data from before you moved to linux so you wouldn't have to redownload all this data again. 
 If you duo boot, you can access the same files from both OS's saving a large amount of space. 
@@ -200,26 +174,22 @@ If you break your linux install, you can simply reinstall linux without deleting
 ###Fixing Compatability issues
 Not only can you link to files and folders but you can also link to executables and execute the executable with a link.
 
-####How?
 ```
 ln -s /opt/program-1.2.3.4 program
 ```
 This creates a soft link to the latest version of program 
-####Why?
 Some features are not backwards compatable so multiple versions are kept.
 Everything the program updates all you have to update is the link.
 Running the program multiple times a day will save lots of typing!
 ###Organization with Links
 Being able to access the same file in multiple files makes organization far easier. 
 
-####How?
 We will now be creating a hardlink of a picture for another directory
 
 ```
 ln ../Family/12352162.png .
 ```
 
-####Why?
 You can edit one picture and it will change all the other pictuers.
 It works just like a tagging system but with folders.
 Why not soft links?
@@ -230,7 +200,21 @@ Hard links use slightly less space.
 
 #Intresting Facts
 ###Why are Hard Links not allowed for Directories and What Happens When We Try?
-This is a very bad idea because there is no way to distinguish between a hard link and an orginal name. Using hard links would break the iternal structure of the filesystem which would possibly cause directory loops and dangling directory subtrees. A solution to this problem would be to use soft links.
+First lest make a emply directory and use `ls` to see some details about it.
+```
+$ mkdir test
+$ ls -la test
+total 8
+drwxr-xr-x 2 lolipopping lolipopping 4096 Jun  8 20:32 .
+drwxr-xr-x 3 lolipopping lolipopping 4096 Jun  8 20:32 ..
+```
+As you can see from the 2 and 3 the `.` and `..` folders are hardlinks.
+So there can be hardlinks to directories but we just can't make it.
+That is because of performance overhead and an extra complication for the file system.
+One of the complications is when you delete a directory which has hardlinks, what should `..` point to?
+If the directory is deleted from its parent but its link count is still greater than 0 then there must still be something pointing to it.
+To find out way you whould have to traverse the entire file system.
+
 ###How the mv and rm command works
 `rm` just unlinks the file but does not overwrite the data. 
 As long as you are in the same filesystem, mv just creates a hard link and removes the previous directory entry. 
